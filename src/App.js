@@ -2,6 +2,9 @@ import React, { Component }from 'react';
 import { Route, Link } from 'react-router-dom';
 import Instructions from './Instructions/instructions';
 import About from './About/about';
+import AddCard from './AddCard/add-card';
+import AddSet from './AddSet/add-set';
+import Cards from './Cards/cards';
 
 import './App.css';
 
@@ -68,6 +71,7 @@ class App extends Component {
         </nav>
         <div className='app-main'>
           <Route
+            exact
             path='/'
             component={Instructions}
           />
@@ -75,10 +79,15 @@ class App extends Component {
             path='/about'
             component={About}
           />
-          <Route
-            path='/cards'
-            render={(props) => <Cards {...props} sets={sets} cards={cards} />}
-          />
+          {['/cards', '/cards/:setId'].map(path => 
+            <Route
+              exact
+              key={path}
+              path={path}
+              render={(props) => <Cards {...props} sets={sets} cards={cards} />}
+            />
+          )}
+          
           <Route
             path='/add-set'
             render={(props) => <AddSet {...props} addSet={handleAddSet} sets={sets}/>}

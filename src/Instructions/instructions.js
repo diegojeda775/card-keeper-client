@@ -16,7 +16,7 @@ export default class Instructions extends Component {
                     To begin, please click the buttton "Cards" bellow.
                 </h4>
                 <Link to='/cards'>
-                    <button className='btn-ins'></button>
+                    <button className='btn-ins'>Cards</button>
                 </Link>
             </div>
         )
