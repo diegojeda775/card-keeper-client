@@ -1,0 +1,28 @@
+.add-card{
+    text-align: center;
+    margin: 20px;
+}
+
+.add-card-form{
+    display:inline-grid;
+    justify-content: center;
+    
+}
+
+.add-card-form input, select{
+    width: 300px;
+}
+
+.add-card-form label{
+    padding-top: 10px;
+}
+
+@media all and (min-width: 768px){
+    .add-card-form{
+        width: 100%;
+        margin: 0;
+        align-items: center;
+        justify-items: center;
+
+    }
+}

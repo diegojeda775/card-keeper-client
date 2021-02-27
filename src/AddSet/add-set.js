@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import keeperContext from "../keeper-context";
 import config from '../config';
+import './add-set.css'
 
 export default class AddSet extends Component {
     constructor(props){
@@ -60,7 +61,7 @@ export default class AddSet extends Component {
             <div className='add-set'>
                 <h4>Add Set Form</h4>
                 <form>
-                    <label htmlFor='title'>Title</label>
+                    <label htmlFor='title'>Title:</label>
                     <input 
                         type='text'
                         name='title'

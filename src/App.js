@@ -74,19 +74,19 @@ class App extends Component {
       <keeperContext.Provider value={value}>
         <div className="app">
           <nav className="app-nav-header">
-            <div>
+            <div className='nav-title'>
               <Link to='/'>
                 <h1>Card Keeper</h1>
               </Link>
             </div>
-            <ul>
-              <li>
+            <ul className='nav-list'>
+              <li className='nav-item'>
                 <Link to='/'>Home</Link>
               </li>
-              <li>
+              <li className='nav-item'>
                 <Link to='/cards'>Cards</Link>
               </li>
-              <li>
+              <li className='nav-item'>
                 <Link to='/about'>About</Link>
               </li>
             </ul>

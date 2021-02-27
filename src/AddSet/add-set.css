@@ -1,0 +1,16 @@
+.add-set{
+    text-align: center;
+    margin: 20px;
+}
+
+.add-set form{
+    margin: 20px;
+}
+
+.add-set label{
+    margin: 20px
+}
+
+.btn-save, .btn-cancel{
+    margin: 20px;
+}

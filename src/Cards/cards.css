@@ -1,0 +1,53 @@
+.set-cards{
+    text-align: center;
+    /* margin: ; */
+    display: grid;
+    grid-template-columns: .1fr 1fr;
+    /* background-color: ; */
+}
+
+.set-cards ul{
+    list-style: none;
+}
+
+.sets-nav{
+    background: #347B98;
+    justify-content: center;
+    text-align: end !important;
+    border: 0.5px solid #F7E0D4;
+}
+
+.set-nav-link{
+    margin: 10px 0px;
+
+}
+
+.link-ac.active{
+    background: #F7E0D4;
+}
+
+.cards-list{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.card{
+    margin: 10px;
+    padding: 15px;
+    border: 2px solid #347B98;
+    width: 154px;
+    height: 215px;
+    background-image: url(../images/mtg-card.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+@media all and (min-width: 768px){
+    .cards-list{
+        flex-direction: row;
+    }
+}

@@ -25,7 +25,11 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #FC600A;
+}
+
+.App-link:visited {
+  color: #FC600A;
 }
 
 @keyframes App-logo-spin {
@@ -34,5 +38,69 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.app-nav-header{
+  display: flex; 
+  align-items: center;
+  flex-wrap: wrap;
+  text-decoration: none;
+  background-color: #347B98;
+}
+
+.nav-title{
+  text-decoration: none;
+  flex-grow: 2;
+  align-self: flex-start;
+  text-align: center;
+}
+
+.nav-list{
+  text-decoration: none;
+  flex-shrink: 0;
+  text-align: center;
+  width: 100%;
+  margin: 0px 0px;
+  padding: 20px 0px;
+}
+.nav-list li{
+  display: inline-block;
+  margin: 0px 20px;
+}
+
+.nav-item a:hover{
+  color:#F7E0D4;
+}
+
+a{
+  text-decoration: none;
+  transition: all 0.3s ease 0s;
+}
+a:visited{
+  text-decoration: none;
+  color: none;
+}
+
+a:-webkit-any-link {
+  color: inherit;
+}
+
+@media all and (min-width: 768px){
+  .nav-title{
+      text-align: left;
+      width: 60%;
+      padding: 0px 20px;
+  }
+  .nav-list{
+    text-decoration: none;
+    flex-shrink: 0;
+    text-align: center;
+    width: 30%;
+    margin: 0px 0px;
+    padding: 0%;
+  }
+  .app-nav-header{
+    flex-wrap: none;
   }
 }

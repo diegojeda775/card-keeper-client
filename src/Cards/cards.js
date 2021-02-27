@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import keeperContext from "../keeper-context";
+import './cards.css'
 
 export default class Cards extends Component {
     static contextType = keeperContext
@@ -10,13 +11,13 @@ export default class Cards extends Component {
                 <h4>Sets</h4>
                 <ul className='sets-nav-list'>
                     <li key='all' className='set-nav-link'>
-                        <NavLink to={`/cards`}>
+                        <NavLink to={`/cards`} >
                             All
                         </NavLink>
                     </li>
                     {this.context.sets.map(set =>
                         <li key={set.id} className='set-nav-link'>
-                            <NavLink to={`/cards/${set.id}`}>
+                            <NavLink to={`/cards/${set.id}`} className='link-ac'>
                                 {set.title}
                             </NavLink>
                         </li>
@@ -33,7 +34,7 @@ export default class Cards extends Component {
 
     renderCards(){
         const { setId } = this.props.match.params;
-        const cards = this.context.cards
+        const cards = this.context.cards;
         // eslint-disable-next-line
         const cardsInSet = (!setId) ? cards : cards.filter(card => card.set_id == setId)
 

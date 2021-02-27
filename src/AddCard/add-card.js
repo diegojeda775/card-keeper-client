@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import keeperContext from "../keeper-context";
 import config from '../config';
+import './add-card.css'
 
 export default class AddCard extends Component {
     constructor(props){
@@ -64,7 +65,7 @@ export default class AddCard extends Component {
         return (
             <div className='add-card'>
                 <h4>Add Card Form</h4>
-                <form>
+                <form className='add-card-form'>
                     <label htmlFor='name'>Name</label>
                     <input 
                         type='text'
@@ -92,7 +93,7 @@ export default class AddCard extends Component {
                         name='rarity'
                         id='rarity'
                         onChange={this.handleChange}
-                        placeholder='eg. Mythic, Rare, Uncommon or common'
+                        placeholder='eg. Mythic, Rare, Uncommon or Common'
                         required 
                     />
 
