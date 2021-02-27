@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import keeperContext from "../keeper-context";
 
 export default class Cards extends Component {
+    static contextType = keeperContext
     renderSetNav(){
         return(
             <div className='sets-nav'>
@@ -12,7 +14,7 @@ export default class Cards extends Component {
                             All
                         </NavLink>
                     </li>
-                    {this.props.sets.map(set =>
+                    {this.context.sets.map(set =>
                         <li key={set.id} className='set-nav-link'>
                             <NavLink to={`/cards/${set.id}`}>
                                 {set.title}
@@ -31,7 +33,7 @@ export default class Cards extends Component {
 
     renderCards(){
         const { setId } = this.props.match.params;
-        const cards = this.props.cards
+        const cards = this.context.cards
         // eslint-disable-next-line
         const cardsInSet = (!setId) ? cards : cards.filter(card => card.set_id == setId)
 

@@ -5,102 +5,122 @@ import About from './About/about';
 import AddCard from './AddCard/add-card';
 import AddSet from './AddSet/add-set';
 import Cards from './Cards/cards';
+import config from './config';
+import keeperContext from "./keeper-context";
 
 import './App.css';
 
 class App extends Component {
-  render(){
-    const sets = [
-      {
-        id: 1,
-        title: 'Zendikar Rising'
-      },
-      {
-        id: 2,
-        title: 'Core 2021'
-      }
-    ]
-    const cards = [
-      {
-        id: 1,
-        name: 'Grim Tutor',
-        set_id: 2,
-        rarity: 'mythic',
-        type: 'sorcery',
-      },
-      {
-        id: 2,
-        name: 'Lotus Cobra',
-        set_id: 1,
-        rarity: 'rare',
-        type: 'creature',
-      },
-      {
-        id: 3,
-        name: 'Spoils of adventure',
-        set_id: 1,
-        rarity: 'rare',
-        type: 'creature',
-      }
-    ]
-    const handleAddSet = newSet => {
-      sets.push(newSet)
-    }
-    const handleAddCard = newCard => {
-      cards.push(newCard)
-    }
+  state = {
+    sets: [],
+    cards: []
+  }
+
+  componentDidMount() {
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/sets`),
+      fetch(`${config.API_ENDPOINT}/cards`)
+    ])
+      .then(([setsRes, cardsRes]) => {
+        if (!setsRes.ok)
+          return setsRes.json().then(e => Promise.reject(e))
+        if (!cardsRes.ok)
+          return cardsRes.json().then(e => Promise.reject(e))
+
+        return Promise.all([
+          setsRes.json(),
+          cardsRes.json(),
+        ])
+      })
+      .then(([sets, cards]) => {
+        this.setState({ sets, cards })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
+  }
+
+  handleAddSet = newSet => {
+    this.setState({
+      sets: [
+        ...this.state.sets,
+        newSet
+      ]
+    })
+  }
+  handleAddCard = newCard => {
+    this.setState({
+      cards: [
+        ...this.state.cards,
+        newCard
+      ]
+    })
+  }
+  handleDeleteCard = cardId => {
+    this.setState({
+      cards: this.state.cards.filter(card => card.id !== cardId)
+    })
+  }
+  render() { 
+    const value = {
+      sets: this.state.sets,
+      cards: this.state.cards,
+      addSet: this.handleAddSet,
+      addCard: this.handleAddCard,
+      deleteCard: this.handleDeleteCard
+    }   
+    
     return (
-      <div className="app">
-        <nav className="app-nav-header">
-          <div>
-            <Link to='/'>
-              <h1>Card Keeper</h1>
-            </Link>
-          </div>
-          <ul>
-            <li>
-              <Link to='/'>Home</Link>
-            </li>
-            <li>
-              <Link to='/cards'>Cards</Link>
-            </li>
-            <li>
-              <Link to='/about'>About</Link>
-            </li>
-          </ul>
-        </nav>
-        <div className='app-main'>
-          <Route
-            exact
-            path='/'
-            component={Instructions}
-          />
-          <Route
-            path='/about'
-            component={About}
-          />
-          {['/cards', '/cards/:setId'].map(path => 
+      <keeperContext.Provider value={value}>
+        <div className="app">
+          <nav className="app-nav-header">
+            <div>
+              <Link to='/'>
+                <h1>Card Keeper</h1>
+              </Link>
+            </div>
+            <ul>
+              <li>
+                <Link to='/'>Home</Link>
+              </li>
+              <li>
+                <Link to='/cards'>Cards</Link>
+              </li>
+              <li>
+                <Link to='/about'>About</Link>
+              </li>
+            </ul>
+          </nav>
+          <div className='app-main'>
             <Route
               exact
-              key={path}
-              path={path}
-              render={(props) => <Cards {...props} sets={sets} cards={cards} />}
+              path='/'
+              component={Instructions}
             />
-          )}
-          
-          <Route
-            path='/add-set'
-            render={(props) => <AddSet {...props} addSet={handleAddSet} sets={sets}/>}
-          />
-          <Route
-            path='/add-card'
-            render={(props) => <AddCard {...props} addCard={handleAddCard} cards={cards} sets={sets}/>}
-          />
+            <Route
+              path='/about'
+              component={About}
+            />
+            {['/cards', '/cards/:setId'].map(path => 
+              <Route
+                exact
+                key={path}
+                path={path}
+                component={Cards}
+              />
+            )}
+            
+            <Route
+              path='/add-set'
+              component={AddSet}
+            />
+            <Route
+              path='/add-card'
+              component={AddCard}
+            />
+          </div>
         </div>
-
-
-
-      </div>
+      </keeperContext.Provider>
     );
   }
 }

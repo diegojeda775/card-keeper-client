@@ -1,25 +1,46 @@
 import React, { Component } from 'react'
+import keeperContext from "../keeper-context";
+import config from '../config';
 
 export default class AddSet extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            id: null,
             title: null
         }
     }
+
+    static contextType = keeperContext
 
     handleSubmit = e => {
         e.preventDefault();
 
         const newSet ={
-            id: this.state.id,
             title: this.state.title,
         };
 
-        this.props.addSet(newSet);
-        this.goCards();
+        fetch(`${config.API_ENDPOINT}/sets`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newSet)
+        })
+        .then(res => {
+            if (!res.ok){
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(newSet => {
+            this.context.addSet(newSet);
+            this.goCards();
+        })
+        .catch(error => {
+            console.log({ error })
+        })
+
     }
 
     handleChange = e => {
@@ -33,12 +54,7 @@ export default class AddSet extends Component {
         this.props.history.push('/cards');
     }
 
-    componentDidMount(){
-        this.setState({
-            id: this.props.sets.length + 1
-        })
-    }
-
+   
     render() {
         return (
             <div className='add-set'>

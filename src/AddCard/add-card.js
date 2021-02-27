@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import keeperContext from "../keeper-context";
+import config from '../config';
 
 export default class AddCard extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            id: '',
             name: '',
             set_id: '',
             rarity: '',
@@ -13,19 +14,38 @@ export default class AddCard extends Component {
         }
     }
 
+    static contextType = keeperContext
+
     handleSubmit = e => {
         e.preventDefault();
 
         const newCard ={
-            id: this.state.id,
             name: this.state.name,
             set_id: this.state.set_id,
             rarity: this.state.rarity,
             type: this.state.type
         };
-
-        this.props.addCard(newCard);
-        this.goCards();
+        fetch(`${config.API_ENDPOINT}/cards`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newCard)
+        })
+        .then(res => {
+            if (!res.ok){
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(newCard => {
+            this.context.addCard(newCard);
+            this.goCards();
+        })
+        .catch(error => {
+            console.log({ error })
+        })
+       
     }
 
     handleChange = e => {
@@ -39,11 +59,6 @@ export default class AddCard extends Component {
         this.props.history.push('/cards');
     }
 
-    componentDidMount(){
-        this.setState({
-            id: this.props.cards.length + 1
-        })
-    }
 
     render() {
         return (
@@ -68,7 +83,7 @@ export default class AddCard extends Component {
                         required
                     >
                         <option value={undefined}>...Select a Set</option>
-                        {this.props.sets.map(set => <option key={set.id} value={set.id}>{set.title}</option>)} 
+                        {this.context.sets.map(set => <option key={set.id} value={set.id}>{set.title}</option>)} 
                     </select>
 
                     <label htmlFor='rarity'>Rarity</label>
