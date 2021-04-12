@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import keeperContext from "../keeper-context";
+import config from '../config';
 import './cards.css'
 
 export default class Cards extends Component {
     static contextType = keeperContext
+
+    handleDelete(event){
+        event.preventDefault();
+        const cardId = event.target.id;
+        fetch(`${config.API_ENDPOINT}/cards/${cardId}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(() => {
+            this.context.deleteCard(cardId);
+            this.props.history.go(0);
+        })
+    }
     renderSetNav(){
         return(
             <div className='sets-nav'>
@@ -36,18 +52,33 @@ export default class Cards extends Component {
         const { setId } = this.props.match.params;
         const cards = this.context.cards;
         // eslint-disable-next-line
-        const cardsInSet = (!setId) ? cards : cards.filter(card => card.set_id == setId)
+        const cardsInSet = (!setId) ? cards : cards.filter(card => card.set_id === Number(setId))
 
         return (
             <div className='cards-in-set'>
                 <h4>Cards</h4>
                 <ul className='cards-list'>
-                    {cardsInSet.map(card => 
-                        <li key={card.id} className='card'>
-                            <p className='card-name'>{card.name}</p>
-                            <p className='card-rarity'>{card.rarity}</p>
-                            <p className='card-type'>{card.type}</p>
-                        </li>
+                    {cardsInSet.map(card =>
+                        <div key={card.id} className='card'>
+                            <li key={card.id} >
+                                <p className='card-name'>{card.name}</p>
+                                <p className='card-rarity'>{card.rarity}</p>
+                                <p className='card-type'>{card.type}</p>
+                            </li>
+                            <div style={{ margin: "40px" }}>
+                                <button 
+                                    style={{ margin: "5px" }} 
+                                    id={card.id} 
+                                    onClick={(event) => this.handleDelete(event)}
+                                >
+                                        Delete
+                                </button>
+                                <Link to={`/cards/${card.id}/edit`}>
+                                    <button style={{ margin: "5px" }}>Edit</button>
+                                </Link>
+                            </div>
+                        </div> 
+                        
                     )}
                 </ul>
                 <div className='cards-btn'>
