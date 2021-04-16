@@ -62,13 +62,22 @@ class App extends Component {
       cards: this.state.cards.filter(card => card.id !== cardId)
     })
   }
+
+  handleUpdateCard = (index, updatedCard) => {
+    const listCards = [...this.state.cards];
+    listCards[index] = updatedCard;
+    this.setState({
+      cards: listCards
+    })
+  } 
   render() { 
     const value = {
       sets: this.state.sets,
       cards: this.state.cards,
       addSet: this.handleAddSet,
       addCard: this.handleAddCard,
-      deleteCard: this.handleDeleteCard
+      deleteCard: this.handleDeleteCard,
+      updateCard: this.handleUpdateCard
     }   
     
     return (

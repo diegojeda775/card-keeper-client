@@ -11,7 +11,8 @@ export default class EditCard extends Component {
             name: '',
             set_id: '',
             rarity: '',
-            type: ''
+            type: '',
+            ind: 0
         }
     }
 
@@ -20,7 +21,12 @@ export default class EditCard extends Component {
     getCard(){
         const { cardId } = this.props.match.params
         const cards = this.context.cards;
-        const oneCard = cards.find(card => card.id === Number(cardId));
+        const oneCard = cards.find((card, index) => {
+            this.setState({
+                ind: index
+            })
+            return card.id === Number(cardId)
+        });
        
         this.setState({
             name: oneCard.name,
@@ -38,33 +44,36 @@ export default class EditCard extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-
+        
         const updatedCard ={
+            id: Number(this.props.match.params.cardId),
             name: this.state.name,
-            set_id: this.state.set_id,
+            set_id: Number(this.state.set_id),
             rarity: this.state.rarity,
             type: this.state.type
         };
-        fetch(`${config.API_ENDPOINT}/cards`, {
-            method: 'PATCH',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(updatedCard)
-        })
-        .then(res => {
-            if (!res.ok){
-                return res.json().then(e => Promise.reject(e))
-            }
-            return res.json()
-        })
-        .then(updatedCard => {
-            this.context.addCard(updatedCard);
-            this.goCards();
-        })
-        .catch(error => {
-            console.log({ error })
-        })
+        // fetch(`${config.API_ENDPOINT}/cards`, {
+        //     method: 'PATCH',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify(updatedCard)
+        // })
+        // .then(res => {
+        //     if (!res.ok){
+        //         return res.json().then(e => Promise.reject(e))
+        //     }
+        //     return res.json()
+        // })
+        // .then(updatedCard => {
+        //     this.context.addCard(updatedCard);
+        //     this.goCards();
+        // })
+        // .catch(error => {
+        //     console.log({ error })
+        // })
+        this.context.updateCard(this.state.ind, updatedCard);
+        this.goCards();
        
     }
 

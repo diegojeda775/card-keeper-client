@@ -5,5 +5,6 @@ export default React.createContext({
     cards: [],
     addSet: () => {},
     addCard: () => {},
-    deleteCard: () => {}
+    deleteCard: () => {},
+    updateCard: () => {}
 })
