@@ -7,8 +7,9 @@ import AddSet from './AddSet/add-set';
 import Cards from './Cards/cards';
 import config from './config';
 import keeperContext from "./keeper-context";
-
+import EditCard from './EditCard/edit-card';
 import './App.css';
+
 
 class App extends Component {
   state = {
@@ -97,10 +98,17 @@ class App extends Component {
               path='/'
               component={Instructions}
             />
+
             <Route
               path='/about'
               component={About}
             />
+
+            <Route
+              path='/cards/:cardId/edit'
+              component={EditCard}
+            />
+
             {['/cards', '/cards/:setId'].map(path => 
               <Route
                 exact
