@@ -44,37 +44,30 @@ export default class EditCard extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        
+        const id = Number(this.props.match.params.cardId);
         const updatedCard ={
-            id: Number(this.props.match.params.cardId),
+            // id: Number(this.props.match.params.cardId),
             name: this.state.name,
             set_id: Number(this.state.set_id),
             rarity: this.state.rarity,
             type: this.state.type
         };
-        // fetch(`${config.API_ENDPOINT}/cards`, {
-        //     method: 'PATCH',
-        //     headers: {
-        //         'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(updatedCard)
-        // })
-        // .then(res => {
-        //     if (!res.ok){
-        //         return res.json().then(e => Promise.reject(e))
-        //     }
-        //     return res.json()
-        // })
-        // .then(updatedCard => {
-        //     this.context.addCard(updatedCard);
-        //     this.goCards();
-        // })
-        // .catch(error => {
-        //     console.log({ error })
-        // })
-        this.context.updateCard(this.state.ind, updatedCard);
-        this.goCards();
-       
+        fetch(`${config.API_ENDPOINT}/cards/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedCard)
+        })
+        .then(() => {
+            updatedCard.id = Number(this.props.match.params.cardId);
+            this.context.updateCard(this.state.ind, updatedCard);
+            this.goCards();
+        })
+        .catch(error => {
+            console.log({ error })
+        })
+               
     }
 
     handleChange = e => {
