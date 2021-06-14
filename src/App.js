@@ -14,7 +14,8 @@ import './App.css';
 class App extends Component {
   state = {
     sets: [],
-    cards: []
+    cards: [],
+    loading: true
   }
 
   componentDidMount() {
@@ -34,7 +35,8 @@ class App extends Component {
         ])
       })
       .then(([sets, cards]) => {
-        this.setState({ sets, cards })
+        this.setState({ sets, cards });
+        this.setState({loading: false});
       })
       .catch(error => {
         console.error({ error })
@@ -74,6 +76,7 @@ class App extends Component {
     const value = {
       sets: this.state.sets,
       cards: this.state.cards,
+      loading: this.state.loading,
       addSet: this.handleAddSet,
       addCard: this.handleAddCard,
       deleteCard: this.handleDeleteCard,

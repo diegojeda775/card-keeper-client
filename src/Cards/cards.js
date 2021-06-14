@@ -93,8 +93,8 @@ export default class Cards extends Component {
     render() {
         return (
             <div className='set-cards'>
-                {this.renderSetNav()}
-                {this.renderCards()}
+                {this.context.loading === false ? this.renderSetNav() : <p>Loading...</p>}
+                {this.context.loading === false ? this.renderCards() : <p>Loading...</p>}
             </div>
         )
     }

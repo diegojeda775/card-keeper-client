@@ -6,7 +6,7 @@ export default class Instructions extends Component {
     render() {
         return (
             <div className='instruction'>
-                <h2>Welcome to Card Kepper App</h2>
+                <h2>Welcome to Card Keeper App</h2>
                 <h4>
                     Here the user will be able to keep track of Magic the Gathering cards. 
                     The cards are organized by a "set" folder where the cards displayed to the selected folder.
