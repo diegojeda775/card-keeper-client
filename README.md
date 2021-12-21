@@ -2,6 +2,8 @@ Card Keeper App
 
 Live App: https://card-keeper-client.vercel.app/
 
+Server: https://github.com/diegojeda775/card-keeper-server
+
 Api/sets: With this endpont, the client is able to get a list of set from the database.
 Api/cards: With this endpont, the client is able to get a list of cards from the database.
 
